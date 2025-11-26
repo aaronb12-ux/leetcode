@@ -73,3 +73,68 @@ class BinaryTreeBFS:
                 if node.right:
                     queue.append(node.right)
         return ans
+    
+    def deepestLeavesSum(root): #return sum of all leaves in deepest level
+
+        if not root:
+            return []
+        
+        levels = []
+        queue = deque([root])
+
+        while queue:
+
+            levelLength = len(queue) #nodes in current level
+
+            currentLevel = list(map(lambda node: node.val, queue))
+
+            levels.append(currentLevel)
+
+            for _ in range(levelLength):
+
+                node = queue.popleft()
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        return sum(levels[-1])
+    
+    def zigzagLevelOrderTraversal(root):
+
+        if not root:
+            return []
+        
+        levels = []
+        queue = deque([root])
+        currentLevel = 0
+
+        while queue:
+
+            levelLength = len(queue)
+
+            level = list(map(lambda node: node.val, queue))
+
+            if currentLevel % 2 != 0: #is ODD
+                levels.append(level[::-1]) #reverse the level
+            else:
+                levels.append(level)
+            
+            for _ in range(levelLength):
+
+                node = queue.popleft()
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            currentLevel += 1
+        
+        return levels
+
+
+
+
+
+
