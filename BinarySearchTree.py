@@ -137,6 +137,32 @@ class BinarySearchTrees:
         root = traverseTree(root, val)
 
         return root
+    
+    def closestBinarySearchTreeValue(root, target):
+
+        def traverseTree(node, currentMinNode, currentMinSum):
+
+            if not node:
+                return
+            
+            if (abs(node.val - target) <= currentMinSum):
+
+                if abs(node.val - target) == currentMinSum:
+                    currentMinNode = min(node.val, currentMinNode)
+                else:
+                    currentMinNode = node.val
+                    
+                currentMinSum = abs(node.val - target)
+            
+            if node.val < target:
+                return traverseTree(node.right, currentMinNode, currentMinSum)
+            if node.val > target:
+                return traverseTree(node.left, currentMinNode, currentMinSum)
+
+            return currentMinNode
+        
+
+        return traverseTree(root, float("inf"), float("inf"))
 
 
 
