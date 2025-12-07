@@ -62,3 +62,31 @@ class dfsGRAPHS:
                     ans += 1
                     dfs(row, col)
         return ans
+    
+    def minReOrder(n, connections): 
+
+        roads = set()
+        graph = defaultdict(list)
+
+        for org, dest in connections:
+
+            graph[org].append(dest)
+            graph[dest].append(org)
+            roads.add((org, dest))
+
+        
+        def dfs(city):
+            ans = 0
+            for neighbor in graph[city]:
+
+                if neighbor not in seen:
+                    if (city, neighbor) in roads:
+                        ans += 1
+                    
+                    seen.add(neighbor)
+                    ans += dfs(neighbor)
+            
+            return ans
+        
+        seen = {0}
+        return dfs(0)
