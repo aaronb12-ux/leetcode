@@ -90,3 +90,17 @@ class dfsGRAPHS:
         
         seen = {0}
         return dfs(0)
+    
+
+    def unlockRoooms(rooms):
+
+        def dfs(currentRoom):
+
+            for key in rooms[currentRoom]:
+                if key not in visited:
+                    visited.add(key)
+                    dfs(key)
+
+        visited = {0}
+        dfs(0)
+        return len(visited) == len(rooms)
