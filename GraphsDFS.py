@@ -104,3 +104,36 @@ class dfsGRAPHS:
         visited = {0}
         dfs(0)
         return len(visited) == len(rooms)
+    
+    def validPath(n, source, destination, edges): #find if there is a valid path from source to dest
+
+        def makeAdjList():
+
+            adjList = defaultdict(list)
+
+            for e1, e2 in edges:
+
+                adjList[e1].append(e2)
+                adjList[e2].append(e1)
+            
+            return adjList
+
+        def dfs(o):
+            #run dfs on origina (o) if we come across the destination, return true
+            for neighbor in adjList[o]:
+                if neighbor == destination:
+                    return True
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    if dfs(neighbor):
+                        return True
+            return False
+
+        if source == destination:
+            return True
+         
+        adjList = makeAdjList()
+        visited = set()
+        ans = dfs(source)
+        
+        return ans
