@@ -137,3 +137,44 @@ class dfsGRAPHS:
         ans = dfs(source)
         
         return ans
+
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+
+        #grid problem (no adj list needed)
+        #iterate through the entire graph starting at the top left. if we reach a 1 that has no been visited, then we run a dfs at that 1 and record how many '1' we capture in the dfs for that 1
+        self.currentIslandLength = 0
+
+        def valid(row, col):
+            return 0 <= row < numRows and 0 <= col < numCols
+        
+        def dfs(row, col):
+
+            for dy, dx in directions:
+                rowChange = row + dy
+                colChange = col + dx
+                if valid(rowChange, colChange):
+                    if (rowChange, colChange) not in visited:
+                        if grid[rowChange][colChange] == 1:
+                            visited.add((rowChange, colChange))
+                            self.currentIslandLength += 1
+                            dfs(rowChange, colChange)
+
+        #declare variables
+        numRows = len(grid) #m
+        numCols = len(grid[0]) #n
+        visited = set()
+        directions = [(1,0), (-1,0), (0, 1), (0, -1)] #down, up, right, left
+        ans = []
+
+        for i in range(numRows):
+            for j in range(numCols):
+                if grid[i][j] == 1 and (i,j) not in visited:
+                    visited.add((i,j))
+                    self.currentIslandLength = 1
+                    dfs(i,j)
+                    ans.append(self.currentIslandLength)
+        
+        if not ans:
+            return 0
+        
+        return max(ans)
