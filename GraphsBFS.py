@@ -33,3 +33,59 @@ class GraphsBFS:
                             queue.append((nextRow, nextCol, steps + 1))
         
         return -1
+
+    
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+
+        #turn tree into a graph by forming an adj list of it
+        #run a bfs starting from the target and capture all nodes k distance
+        queue = deque([root])
+        ans = []
+        adjList = defaultdict(list)
+
+        def makeAdjList(root):
+
+            if not root:
+                return
+
+            while queue:
+
+                currentNode = queue.popleft()
+
+                if currentNode.left:
+                    adjList[currentNode.val].append(currentNode.left.val)
+                    adjList[currentNode.left.val].append(currentNode.val)
+                    queue.append(currentNode.left)
+
+                
+                if currentNode.right:
+                    adjList[currentNode.val].append(currentNode.right.val)
+                    adjList[currentNode.right.val].append(currentNode.val)
+                    queue.append(currentNode.right)
+        
+        makeAdjList(root)
+
+        queue = deque([target.val])
+        visited = {target.val}
+        level = 0
+
+        while queue:
+
+            if level == k:
+                return list(queue)
+
+            levelLength = len(queue) #one node in the current level
+
+            for _ in range(levelLength):
+
+                currentNode = queue.popleft()
+
+                for neighbor in adjList[currentNode]:
+
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+                
+            level += 1
+        
+        return []
