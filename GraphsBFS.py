@@ -89,3 +89,39 @@ class GraphsBFS:
             level += 1
         
         return []
+    
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+
+
+        m = len(mat) #num rows
+        n = len(mat[0]) #num cols
+        directions = [(1,0), (-1,0), (0,1), (0,-1)] #down, up, right, left
+        queue = deque([])
+        visited = set()
+ 
+        for i in range(m): #initialize queue
+            for j in range(n):
+                if mat[i][j] == 0:
+                    visited.add((i,j))
+                    queue.append((i, j, 0)) #append cell location and steps taken (0)
+        
+        def valid(row, col):
+            return 0 <= row < m and 0 <= col < n
+                    
+        while queue:
+
+            row, col, steps = queue.popleft()
+
+            if mat[row][col] == 1:
+                mat[row][col] = steps
+            
+            for dy, dx in directions:
+                nextRow = row + dy
+                nextCol = col + dx
+
+                if valid(nextRow, nextCol):
+                    if (nextRow, nextCol) not in visited:
+                        visited.add((nextRow, nextCol))
+                        queue.append((nextRow, nextCol, steps + 1))
+        
+        return mat
