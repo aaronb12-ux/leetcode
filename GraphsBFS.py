@@ -125,3 +125,36 @@ class GraphsBFS:
                         queue.append((nextRow, nextCol, steps + 1))
         
         return mat
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        
+        m = len(grid)
+        n = len(grid[0])
+        queue = deque([(0,0,0,k)]) #row, col, steps_taken, removes_left
+        visited = {(0,0,k)} #row, col, removes_left
+        directions = [(1,0), (-1,0), (0,1), (0,-1)] #down, up, right, left
+
+        def valid(row, col):
+            return 0 <= row < m and 0 <= col < n
+
+        while queue:
+
+            row, col, stepsTaken, removesLeft = queue.popleft()
+        
+            if (row, col) == (m - 1, n - 1):
+                return stepsTaken
+            
+            for dy, dx in directions:
+                nextRow = row + dy
+                nextCol = col + dx
+
+                if valid(nextRow, nextCol):
+                        if grid[nextRow][nextCol] == 1:
+                            if removesLeft >= 1 and (nextRow, nextCol, removesLeft - 1) not in visited:
+                                visited.add((nextRow, nextCol, removesLeft - 1))
+                                queue.append((nextRow, nextCol, stepsTaken + 1, removesLeft - 1))   
+                        else:
+                            if (nextRow, nextCol, removesLeft) not in visited:
+                                visited.add((nextRow, nextCol, removesLeft))
+                                queue.append((nextRow, nextCol, stepsTaken + 1, removesLeft))
+        
+        return -1
