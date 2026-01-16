@@ -19,3 +19,34 @@ def productExceptSelf(self, nums: List[int]) -> List[int]:
             ans.append(curr)
     
         return ans
+
+
+ def longestConsecutive(self, nums: List[int]) -> int:
+        
+        #iterate through all the numbers
+
+        '''
+            for each number we check if num + 1 is in numsSet
+            if yes, we incrament our current answer and then again check if that number + 1 is in nunsSet. we continue until this return false
+            and if false we return the current count and update our global max
+        '''
+        if not nums:
+            return 0
+
+        numsSet = set(nums)
+        current = 0
+        globalMax = 0 
+
+        for num in nums:
+
+            while True:
+
+                if num + 1 in numsSet:
+                    current += 1
+                    num = num + 1
+                else:
+                    globalMax = max(current, globalMax)
+                    current = 0
+                    break
+        
+        return globalMax + 1
