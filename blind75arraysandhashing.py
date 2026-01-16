@@ -50,3 +50,36 @@ def productExceptSelf(self, nums: List[int]) -> List[int]:
                     break
         
         return globalMax + 1
+
+
+def isPalindrome(self, s: str) -> bool:
+        
+        #remove all white space in the string
+        #remove all non alphanumerica characters and digits
+        #do normal palindrome check
+
+        noSpaces = s.replace(" ", "")
+
+        for char in noSpaces:
+
+            if not char.isalnum(): 
+
+                noSpaces = noSpaces.replace(char, "")
+        
+        validString = [char.lower() for char in noSpaces]
+
+        res = ''.join(validString)
+
+
+        left = 0
+        right = len(res) - 1
+
+        while left <= right:
+
+            if res[left] != res[right]:
+                return False
+            else:
+                left += 1
+                right -= 1
+        
+        return True
