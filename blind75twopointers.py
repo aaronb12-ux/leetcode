@@ -33,3 +33,31 @@ class Solution:
                     right -= 1
 
         return ans
+        
+class Solution:
+    def maxArea(self, heights: List[int]) -> int:
+
+        left = 0
+        right = len(heights) - 1
+        max_water = 0
+
+        while left < right:
+
+            curr_water = (right - left) * min(heights[left], heights[right])
+
+            if curr_water > max_water:
+                max_water = curr_water
+
+            #move the smaller height because we want to search for a taller height to fit more water from now on
+            if heights[right] > heights[left]:
+                left += 1
+            
+            elif heights[right] < heights[left]:
+                right -= 1
+            
+            else:
+                left += 1
+                right -= 1
+            
+        return max_water
+
