@@ -69,4 +69,27 @@ class Solution:
             prev.next = curr2
 
         return dummy.next
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+
+        seenNodes = set()
+
+        while head:
+
+            if head in seenNodes:
+                return True
+            else:
+                seenNodes.add(head)
+                head = head.next
+        
+        return False
+
          
